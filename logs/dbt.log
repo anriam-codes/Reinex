@@ -1,0 +1,222 @@
+[0m15:36:06.054470 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000285CB0EA270>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000285C7E8ED50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000285CD493C50>]}
+
+
+============================== 15:36:06.060563 | 629f991e-f6f0-4e01-98de-64b5b3e61510 ==============================
+[0m15:36:06.060563 [info ] [MainThread]: Running with dbt=1.11.11
+[0m15:36:06.061191 [debug] [MainThread]: running dbt with arguments {'version_check': 'True', 'no_print': 'None', 'static_parser': 'True', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'printer_width': '80', 'write_json': 'True', 'introspect': 'True', 'log_cache_events': 'False', 'empty': 'None', 'cache_selected_only': 'False', 'fail_fast': 'False', 'debug': 'False', 'log_format': 'default', 'profiles_dir': 'C:\\Users\\krith\\.dbt', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'warn_error': 'None', 'partial_parse': 'True', 'use_colors': 'True', 'invocation_command': 'dbt init reinex_project', 'indirect_selection': 'eager', 'use_experimental_parser': 'False', 'log_path': 'logs'}
+[0m15:36:06.085111 [info ] [MainThread]: Creating dbt configuration folder at C:\Users\krith\.dbt
+[0m15:36:06.087251 [debug] [MainThread]: Starter project path: D:\1MyDev\REINEX\venv\Lib\site-packages\dbt\include\starter_project
+[0m15:36:06.105600 [info ] [MainThread]: 
+Your new dbt project "reinex_project" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m15:36:06.106242 [info ] [MainThread]: Setting up your profile.
+[0m15:37:14.380641 [error] [MainThread]: Encountered an error:
+
+[0m15:37:14.527999 [error] [MainThread]: Traceback (most recent call last):
+  File "D:\1MyDev\REINEX\venv\Lib\site-packages\dbt\cli\requires.py", line 182, in wrapper
+    result, success = func(*args, **kwargs)
+                      ~~~~^^^^^^^^^^^^^^^^^
+  File "D:\1MyDev\REINEX\venv\Lib\site-packages\dbt\cli\requires.py", line 128, in wrapper
+    return func(*args, **kwargs)
+  File "D:\1MyDev\REINEX\venv\Lib\site-packages\dbt\cli\main.py", line 488, in init
+    results = task.run()
+  File "D:\1MyDev\REINEX\venv\Lib\site-packages\dbt\task\init.py", line 346, in run
+    self.setup_profile(profile_name)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "D:\1MyDev\REINEX\venv\Lib\site-packages\dbt\task\init.py", line 262, in setup_profile
+    self.create_profile_from_target(adapter, profile_name=profile_name)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\1MyDev\REINEX\venv\Lib\site-packages\dbt\task\init.py", line 179, in create_profile_from_target
+    self.create_profile_from_profile_template(profile_template, profile_name)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\1MyDev\REINEX\venv\Lib\site-packages\dbt\task\init.py", line 163, in create_profile_from_profile_template
+    target = self.generate_target_from_input(prompts, initial_target)
+  File "D:\1MyDev\REINEX\venv\Lib\site-packages\dbt\task\init.py", line 129, in generate_target_from_input
+    target[key] = click.prompt(
+                  ~~~~~~~~~~~~^
+        text, default=default, hide_input=hide_input, type=type
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\1MyDev\REINEX\venv\Lib\site-packages\click\termui.py", line 218, in prompt
+    value = prompt_func(prompt)
+  File "D:\1MyDev\REINEX\venv\Lib\site-packages\click\termui.py", line 201, in prompt_func
+    raise Abort() from None
+click.exceptions.Abort
+
+[0m15:37:14.528964 [debug] [MainThread]: Command `dbt init` failed at 15:37:14.528851 after 68.65 seconds
+[0m15:37:14.529279 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000285CD618FC0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000285CD5F9C70>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000285CDA1C160>]}
+[0m15:37:14.529589 [debug] [MainThread]: Flushing usage events
+[0m15:37:16.242795 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m15:37:28.245212 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001CE1DB9A270>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001CE1A9AED50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001CE1FF33C50>]}
+
+
+============================== 15:37:28.249007 | f37f7f55-4bcd-4b8b-8165-03847e5262ed ==============================
+[0m15:37:28.249007 [info ] [MainThread]: Running with dbt=1.11.11
+[0m15:37:28.249471 [debug] [MainThread]: running dbt with arguments {'static_parser': 'True', 'no_print': 'None', 'version_check': 'True', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'printer_width': '80', 'write_json': 'True', 'introspect': 'True', 'log_cache_events': 'False', 'empty': 'None', 'cache_selected_only': 'False', 'fail_fast': 'False', 'debug': 'False', 'log_format': 'default', 'profiles_dir': 'C:\\Users\\krith\\.dbt', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'warn_error': 'None', 'partial_parse': 'True', 'use_colors': 'True', 'indirect_selection': 'eager', 'invocation_command': 'dbt init reinex_pro', 'use_experimental_parser': 'False', 'log_path': 'logs'}
+[0m15:37:28.262213 [debug] [MainThread]: Starter project path: D:\1MyDev\REINEX\venv\Lib\site-packages\dbt\include\starter_project
+[0m15:37:28.275575 [info ] [MainThread]: 
+Your new dbt project "reinex_pro" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m15:37:28.276219 [info ] [MainThread]: Setting up your profile.
+[0m15:37:58.636155 [info ] [MainThread]: Profile reinex_pro written to C:\Users\krith\.dbt\profiles.yml using target's profile_template.yml and your supplied values. Run 'dbt debug' to validate the connection.
+[0m15:37:58.637588 [debug] [MainThread]: Command `dbt init` succeeded at 15:37:58.637413 after 30.54 seconds
+[0m15:37:58.638149 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001CE200B9220>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001CE20099B50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001CE1FF816A0>]}
+[0m15:37:58.638635 [debug] [MainThread]: Flushing usage events
+[0m15:38:01.021430 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m15:38:20.489377 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001BAFA34E270>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001BAF709ED50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001BAFB713C50>]}
+
+
+============================== 15:38:20.494032 | f80123fc-9d80-4cb6-a316-df5a076cd1a8 ==============================
+[0m15:38:20.494032 [info ] [MainThread]: Running with dbt=1.11.11
+[0m15:38:20.494881 [debug] [MainThread]: running dbt with arguments {'static_parser': 'True', 'no_print': 'None', 'version_check': 'True', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'printer_width': '80', 'write_json': 'True', 'introspect': 'True', 'log_cache_events': 'False', 'empty': 'None', 'cache_selected_only': 'False', 'log_format': 'default', 'debug': 'False', 'fail_fast': 'False', 'profiles_dir': 'C:\\Users\\krith\\.dbt', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'warn_error': 'None', 'partial_parse': 'True', 'indirect_selection': 'eager', 'invocation_command': 'dbt debug', 'use_colors': 'True', 'use_experimental_parser': 'False', 'log_path': 'logs'}
+[0m15:38:20.513529 [info ] [MainThread]: dbt version: 1.11.11
+[0m15:38:20.514113 [info ] [MainThread]: python version: 3.13.5
+[0m15:38:20.514483 [info ] [MainThread]: python path: D:\1MyDev\REINEX\venv\Scripts\python.exe
+[0m15:38:20.514780 [info ] [MainThread]: os info: Windows-11-10.0.26200-SP0
+[0m15:38:20.562277 [info ] [MainThread]: Using profiles dir at C:\Users\krith\.dbt
+[0m15:38:20.563148 [info ] [MainThread]: Using profiles.yml file at C:\Users\krith\.dbt\profiles.yml
+[0m15:38:20.563642 [info ] [MainThread]: Using dbt_project.yml file at D:\1MyDev\REINEX\dbt_project.yml
+[0m15:38:20.564732 [info ] [MainThread]: adapter type: postgres
+[0m15:38:20.565375 [info ] [MainThread]: adapter version: 1.10.2
+[0m15:38:20.565927 [info ] [MainThread]: Configuration:
+[0m15:38:20.566442 [info ] [MainThread]:   profiles.yml file [[32mOK found and valid[0m]
+[0m15:38:20.566877 [info ] [MainThread]:   dbt_project.yml file [[31mERROR not found[0m]
+[0m15:38:20.567316 [info ] [MainThread]: Required dependencies:
+[0m15:38:20.567860 [debug] [MainThread]: Executing "git --help"
+[0m15:38:20.617892 [debug] [MainThread]: STDOUT: "b"usage: git [-v | --version] [-h | --help] [-C <path>] [-c <name>=<value>]\n           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]\n           [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--no-lazy-fetch]\n           [--no-optional-locks] [--no-advice] [--bare] [--git-dir=<path>]\n           [--work-tree=<path>] [--namespace=<name>] [--config-env=<name>=<envvar>]\n           <command> [<args>]\n\nThese are common Git commands used in various situations:\n\nstart a working area (see also: git help tutorial)\n   clone      Clone a repository into a new directory\n   init       Create an empty Git repository or reinitialize an existing one\n\nwork on the current change (see also: git help everyday)\n   add        Add file contents to the index\n   mv         Move or rename a file, a directory, or a symlink\n   restore    Restore working tree files\n   rm         Remove files from the working tree and from the index\n\nexamine the history and state (see also: git help revisions)\n   bisect     Use binary search to find the commit that introduced a bug\n   diff       Show changes between commits, commit and working tree, etc\n   grep       Print lines matching a pattern\n   log        Show commit logs\n   show       Show various types of objects\n   status     Show the working tree status\n\ngrow, mark and tweak your common history\n   backfill   Download missing objects in a partial clone\n   branch     List, create, or delete branches\n   commit     Record changes to the repository\n   merge      Join two or more development histories together\n   rebase     Reapply commits on top of another base tip\n   reset      Reset current HEAD to the specified state\n   switch     Switch branches\n   tag        Create, list, delete or verify a tag object signed with GPG\n\ncollaborate (see also: git help workflows)\n   fetch      Download objects and refs from another repository\n   pull       Fetch from and integrate with another repository or a local branch\n   push       Update remote refs along with associated objects\n\n'git help -a' and 'git help -g' list available subcommands and some\nconcept guides. See 'git help <command>' or 'git help <concept>'\nto read about a specific subcommand or concept.\nSee 'git help git' for an overview of the system.\n""
+[0m15:38:20.618400 [debug] [MainThread]: STDERR: "b''"
+[0m15:38:20.618837 [info ] [MainThread]:  - git [[32mOK found[0m]
+
+[0m15:38:20.619374 [info ] [MainThread]: Connection:
+[0m15:38:20.619868 [info ] [MainThread]:   host: localhost
+[0m15:38:20.620285 [info ] [MainThread]:   port: 5433
+[0m15:38:20.620807 [info ] [MainThread]:   user: rei
+[0m15:38:20.621233 [info ] [MainThread]:   database: reinex
+[0m15:38:20.621600 [info ] [MainThread]:   schema: public
+[0m15:38:20.622109 [info ] [MainThread]:   connect_timeout: 10
+[0m15:38:20.622545 [info ] [MainThread]:   role: None
+[0m15:38:20.623035 [info ] [MainThread]:   search_path: None
+[0m15:38:20.623453 [info ] [MainThread]:   keepalives_idle: 0
+[0m15:38:20.623836 [info ] [MainThread]:   sslmode: None
+[0m15:38:20.624367 [info ] [MainThread]:   sslcert: None
+[0m15:38:20.625018 [info ] [MainThread]:   sslkey: None
+[0m15:38:20.625598 [info ] [MainThread]:   sslrootcert: None
+[0m15:38:20.626123 [info ] [MainThread]:   application_name: dbt
+[0m15:38:20.626717 [info ] [MainThread]:   retries: 1
+[0m15:38:20.627453 [info ] [MainThread]: Registered adapter: postgres=1.10.2
+[0m15:38:21.014185 [debug] [MainThread]: Acquiring new postgres connection 'debug'
+[0m15:38:26.102868 [debug] [MainThread]: Using postgres connection "debug"
+[0m15:38:26.103253 [debug] [MainThread]: On debug: select 1 as id
+[0m15:38:26.103515 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m15:38:30.212555 [debug] [MainThread]: Postgres adapter: Got a retryable error when attempting to open a postgres connection.
+1 attempts remaining. Retrying in 0 seconds.
+Error:
+connection to server at "localhost" (::1), port 5433 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5433 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+[0m15:38:34.321418 [debug] [MainThread]: Postgres adapter: Error running SQL: select 1 as id
+[0m15:38:34.322028 [debug] [MainThread]: Postgres adapter: Rolling back transaction.
+[0m15:38:34.322483 [debug] [MainThread]: On debug: No close available on handle
+[0m15:38:34.322831 [info ] [MainThread]:   Connection test: [[31mERROR[0m]
+
+[0m15:38:34.323243 [info ] [MainThread]: [31m2 checks failed:[0m
+[0m15:38:34.323556 [info ] [MainThread]: Project loading failed for the following reason:
+ project path <D:\1MyDev\REINEX\dbt_project.yml> not found
+
+[0m15:38:34.323815 [info ] [MainThread]: dbt was unable to connect to the specified database.
+The database returned the following error:
+
+  >Database Error
+  connection to server at "localhost" (::1), port 5433 failed: Connection refused (0x0000274D/10061)
+  	Is the server running on that host and accepting TCP/IP connections?
+  connection to server at "localhost" (127.0.0.1), port 5433 failed: Connection refused (0x0000274D/10061)
+  	Is the server running on that host and accepting TCP/IP connections?
+  
+
+Check your database credentials and try again. For more information, visit:
+https://docs.getdbt.com/docs/configure-your-profile
+
+
+[0m15:38:34.324448 [debug] [MainThread]: Command `dbt debug` failed at 15:38:34.324358 after 14.01 seconds
+[0m15:38:34.324681 [debug] [MainThread]: Connection 'debug' was properly closed.
+[0m15:38:34.324920 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001BAFC7FB360>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001BAFCD75370>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001BAFB763570>]}
+[0m15:38:34.325161 [debug] [MainThread]: Flushing usage events
+[0m15:38:36.092451 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m15:40:06.374467 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001BA7DEAE270>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001BA7AC5ED50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001BA7F273C50>]}
+
+
+============================== 15:40:06.378018 | c16a13c6-3920-43b9-85ab-3c11ca5e1a9a ==============================
+[0m15:40:06.378018 [info ] [MainThread]: Running with dbt=1.11.11
+[0m15:40:06.378481 [debug] [MainThread]: running dbt with arguments {'static_parser': 'True', 'no_print': 'None', 'version_check': 'True', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'printer_width': '80', 'write_json': 'True', 'introspect': 'True', 'log_cache_events': 'False', 'empty': 'None', 'cache_selected_only': 'False', 'log_format': 'default', 'debug': 'False', 'fail_fast': 'False', 'profiles_dir': 'C:\\Users\\krith\\.dbt', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'warn_error': 'None', 'partial_parse': 'True', 'use_colors': 'True', 'invocation_command': 'dbt init', 'indirect_selection': 'eager', 'use_experimental_parser': 'False', 'log_path': 'logs'}
+[0m15:40:17.202027 [debug] [MainThread]: Starter project path: D:\1MyDev\REINEX\venv\Lib\site-packages\dbt\include\starter_project
+[0m15:40:17.221304 [info ] [MainThread]: 
+Your new dbt project "rei_pro" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m15:40:17.222132 [info ] [MainThread]: Setting up your profile.
+[0m15:40:44.856543 [info ] [MainThread]: Profile rei_pro written to C:\Users\krith\.dbt\profiles.yml using target's profile_template.yml and your supplied values. Run 'dbt debug' to validate the connection.
+[0m15:40:44.857938 [debug] [MainThread]: Command `dbt init` succeeded at 15:40:44.857758 after 38.64 seconds
+[0m15:40:44.858393 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001BA7F3F8FC0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001BA7F30EE70>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001BA7F2C7F00>]}
+[0m15:40:44.858864 [debug] [MainThread]: Flushing usage events
+[0m15:40:46.933525 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m15:40:56.057051 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001DB9A05E270>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001DB96DEED50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001DB9B43BC50>]}
+
+
+============================== 15:40:56.060993 | 445663d8-8129-418b-8852-b8df4c3e60cd ==============================
+[0m15:40:56.060993 [info ] [MainThread]: Running with dbt=1.11.11
+[0m15:40:56.061619 [debug] [MainThread]: running dbt with arguments {'static_parser': 'True', 'no_print': 'None', 'version_check': 'True', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'target_path': 'None', 'printer_width': '80', 'write_json': 'True', 'introspect': 'True', 'log_cache_events': 'False', 'empty': 'None', 'cache_selected_only': 'False', 'fail_fast': 'False', 'debug': 'False', 'log_format': 'default', 'profiles_dir': 'C:\\Users\\krith\\.dbt', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'warn_error': 'None', 'partial_parse': 'True', 'invocation_command': 'dbt debug', 'use_colors': 'True', 'indirect_selection': 'eager', 'use_experimental_parser': 'False', 'log_path': 'logs'}
+[0m15:40:56.074945 [info ] [MainThread]: dbt version: 1.11.11
+[0m15:40:56.075353 [info ] [MainThread]: python version: 3.13.5
+[0m15:40:56.075662 [info ] [MainThread]: python path: D:\1MyDev\REINEX\venv\Scripts\python.exe
+[0m15:40:56.075969 [info ] [MainThread]: os info: Windows-11-10.0.26200-SP0
+[0m15:40:56.115607 [info ] [MainThread]: Using profiles dir at C:\Users\krith\.dbt
+[0m15:40:56.116129 [info ] [MainThread]: Using profiles.yml file at C:\Users\krith\.dbt\profiles.yml
+[0m15:40:56.116490 [info ] [MainThread]: Using dbt_project.yml file at D:\1MyDev\REINEX\dbt_project.yml
+[0m15:40:56.116951 [error] [MainThread]: Encountered an error:
+Internal Error
+  Profile should not be None if loading profile completed
+[0m15:40:56.117485 [debug] [MainThread]: Command `dbt debug` failed at 15:40:56.117377 after 0.22 seconds
+[0m15:40:56.117736 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001DB9C519CD0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001DB9C58F650>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001DB9B4816A0>]}
+[0m15:40:56.117990 [debug] [MainThread]: Flushing usage events
+[0m15:40:58.029090 [debug] [MainThread]: An error was encountered while trying to flush usage events

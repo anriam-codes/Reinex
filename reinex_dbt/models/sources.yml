@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: silver
+    database: reinex
+    schema: public
+
+    tables:
+      - name: silver_trips
