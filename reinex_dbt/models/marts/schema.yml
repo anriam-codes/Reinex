@@ -1,0 +1,49 @@
+version: 2
+
+models:
+
+  - name: dim_driver
+    columns:
+      - name: driver_id
+        tests:
+          - not_null
+          - unique
+
+  - name: dim_rider
+    columns:
+      - name: rider_id
+        tests:
+          - not_null
+          - unique
+
+  - name: dim_location
+    columns:
+      - name: location_id
+        tests:
+          - not_null
+          - unique
+
+  - name: dim_time
+    columns:
+      - name: date_key
+        tests:
+          - not_null
+
+  - name: fact_trip
+    columns:
+      - name: trip_id
+        tests:
+          - not_null
+          - unique
+
+      - name: driver_id
+        tests:
+          - not_null
+
+      - name: rider_id
+        tests:
+          - not_null
+
+      - name: fare_amount
+        tests:
+          - not_null
