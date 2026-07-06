@@ -4,4 +4,4 @@ BRONZE, SILVER done!!!
 
 onto GOLD WAREHOUSING
 
-BRB ma boi
+BRB bruv
