@@ -11,7 +11,7 @@ print("\nBRONZE")
 for _, row in df.iterrows():
     print(row.to_dict())
 
-# Uncomment only if silver file exists
+# Uncomment if you want silver file
 # print("\nSILVER")
 # silver = pd.read_parquet("silver/trips_clean.parquet")
 # for _, row in silver.iterrows():
