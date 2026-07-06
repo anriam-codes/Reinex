@@ -7,3 +7,5 @@ sources:
 
     tables:
       - name: silver_trips
+
+      - name: taxi_zone_lookup

@@ -31,5 +31,9 @@ clean-targets:         # directories to be removed by `dbt clean`
 # files using the `{{ config(...) }}` macro.
 models:
   reinex_dbt:
+
     staging:
       +materialized: view
+
+    marts:
+      +materialized: table
