@@ -1,7 +1,7 @@
 "Rei rei ra ra" 
 
-BRONZE, SILVER done!!!
+BRONZE, SILVER done!!! ...along with GOLD WAREHOUSE
 
-onto GOLD WAREHOUSING
+index CZEKK consumer side analytics CZEKK
 
-BRB bruv
+soon reinex will be all WHAAAAATT.....
