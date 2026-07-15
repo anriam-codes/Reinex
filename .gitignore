@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Virtual Environment
+venv/
+
+# Generated Data
+bronze/
+silver/
+
+# Logs
+logs/
+
+# dbt
+reinex_dbt/target/
+reinex_dbt/dbt_packages/
+
+# OS
+.DS_Store
+Thumbs.db
