@@ -1,14 +1,21 @@
+import sys
 import pandas as pd
 import random
 import uuid
-from datetime import datetime
+from datetime import datetime, UTC
+
+# Check command-line argument
+if len(sys.argv) != 2:
+    print("Usage: python producer.py <dataset_path>")
+    sys.exit(1)
+
+dataset_path = sys.argv[1]
 
 # Load raw dataset
-df = pd.read_parquet("yellow_tripdata_2023-01.parquet")
+df = pd.read_parquet(dataset_path)
 
 # Sample for MVP
 df = df.sample(n=200, random_state=42).reset_index(drop=True)
-
 events = []
 
 for _, row in df.iterrows():
@@ -21,7 +28,7 @@ for _, row in df.iterrows():
     event["surge_multiplier"] = random.choice([1.0, 1.2, 1.5])
 
     # Metadata
-    event["ingestion_time"] = datetime.utcnow()
+    event["ingestion_time"] = datetime.now(UTC)
     event["source"] = "nyc_taxi"
 
     events.append(event)

@@ -17,4 +17,4 @@ df.to_sql(
     index=False
 )
 
-print("Silver loaded into PostgreSQL")  
+print("Silver loaded into PostgreSQL")
