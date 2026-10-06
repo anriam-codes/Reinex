@@ -1,6 +1,5 @@
 import pandas as pd
-from datetime import datetime
-
+from datetime import datetime, UTC
 # -----------------------
 # Load Bronze Layer
 # -----------------------
@@ -91,7 +90,7 @@ def enrich(df):
 
 def add_metadata(df):
 
-    df["processed_time"] = datetime.utcnow()
+    df["processed_time"] = datetime.now(UTC)
 
     return df
 
