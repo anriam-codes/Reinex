@@ -5,16 +5,15 @@ from sqlalchemy import create_engine, text
 
 DB_HOST = os.getenv("DB_HOST", "127.0.0.1")
 DB_PORT = os.getenv("DB_PORT", "5433")
+BRONZE_PATH = "bronze/trips.parquet"
 
 engine = create_engine(
     f"postgresql://rei:rei123@{DB_HOST}:{DB_PORT}/reinex"
 )
 
-BRONZE_PATH = "bronze/trips.parquet"
 
-
-def main():
-    df = pd.read_parquet(BRONZE_PATH)
+def transform_events(df):
+    df = df.copy()
     df.columns = [c.lower() for c in df.columns]
 
     df["tpep_pickup_datetime"] = pd.to_datetime(
@@ -33,27 +32,33 @@ def main():
         "tpep_dropoff_datetime": "dropoff_datetime",
     })
 
-    upserts = df["operation"].isin(["INSERT", "UPDATE"])
-    valid = (
-        df["operation"].eq("DELETE")
-        | (
-            upserts
-            & (df["fare_amount"] > 0)
-            & (df["trip_distance"] > 0)
-            & df["pickup_datetime"].notna()
-            & df["dropoff_datetime"].notna()
-            & (
-                (df["dropoff_datetime"] - df["pickup_datetime"])
-                .dt.total_seconds() > 0
-            )
+    is_delete = df["operation"].eq("DELETE")
+    is_upsert = df["operation"].isin(["INSERT", "UPDATE"])
+
+    valid_upsert = (
+        is_upsert
+        & (df["fare_amount"] > 0)
+        & (df["trip_distance"] > 0)
+        & df["pickup_datetime"].notna()
+        & df["dropoff_datetime"].notna()
+        & (
+            (df["dropoff_datetime"] - df["pickup_datetime"])
+            .dt.total_seconds() > 0
         )
     )
-    df = df[valid].copy()
+
+    df = df[is_delete | valid_upsert].copy()
 
     df["trip_duration_sec"] = (
         df["dropoff_datetime"] - df["pickup_datetime"]
     ).dt.total_seconds()
     df["processed_time"] = pd.Timestamp.now(tz="UTC")
+
+    return df
+
+
+def main():
+    df = transform_events(pd.read_parquet(BRONZE_PATH))
 
     with engine.begin() as conn:
         conn.execute(text("""
@@ -68,39 +73,37 @@ def main():
 
             if operation == "DELETE":
                 conn.execute(
-                    text("DELETE FROM silver_trips WHERE trip_id = :id"),
-                    {"id": trip_id}
+                    text("""
+                        DELETE FROM silver_trips
+                        WHERE trip_id = :trip_id
+                    """),
+                    {"trip_id": trip_id}
                 )
                 continue
+
+            if operation not in ("INSERT", "UPDATE"):
+                raise ValueError(
+                    f"Unsupported CDC operation: {operation}"
+                )
 
             data = row.drop(labels=["operation"]).to_dict()
             columns = list(data.keys())
 
-            if operation == "INSERT":
-                col_sql = ", ".join(f'"{c}"' for c in columns)
-                val_sql = ", ".join(f":{c}" for c in columns)
-                updates = ", ".join(
-                    f'"{c}" = EXCLUDED."{c}"'
-                    for c in columns if c != "trip_id"
-                )
+            col_sql = ", ".join(f'"{c}"' for c in columns)
+            val_sql = ", ".join(f":{c}" for c in columns)
+            updates = ", ".join(
+                f'"{c}" = EXCLUDED."{c}"'
+                for c in columns if c != "trip_id"
+            )
 
-                conn.execute(text(f"""
-                    INSERT INTO silver_trips ({col_sql})
-                    VALUES ({val_sql})
-                    ON CONFLICT (trip_id) DO UPDATE SET {updates}
-                """), data)
+            conn.execute(text(f"""
+                INSERT INTO silver_trips ({col_sql})
+                VALUES ({val_sql})
+                ON CONFLICT (trip_id)
+                DO UPDATE SET {updates}
+            """), data)
 
-            elif operation == "UPDATE":
-                assignments = ", ".join(
-                    f'"{c}" = :{c}'
-                    for c in columns if c != "trip_id"
-                )
-                conn.execute(text(f"""
-                    UPDATE silver_trips
-                    SET {assignments}
-                    WHERE trip_id = :trip_id
-                """), data)
-
+    print(f"CDC events validated: {len(df)}")
     print("CDC batch applied to PostgreSQL.")
 
 

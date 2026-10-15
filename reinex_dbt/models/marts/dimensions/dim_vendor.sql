@@ -1,4 +1,4 @@
 select distinct
-    rider_id
+    vendor_id
 from {{ ref('stg_trips') }}
-where rider_id is not null
+where vendor_id is not null

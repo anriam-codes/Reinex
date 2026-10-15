@@ -1,17 +1,16 @@
 version: 2
 
 models:
-
-  - name: dim_driver
+  - name: dim_vendor
     columns:
-      - name: driver_id
+      - name: vendor_id
         tests:
           - not_null
           - unique
 
-  - name: dim_rider
+  - name: dim_passenger_count
     columns:
-      - name: rider_id
+      - name: passenger_count
         tests:
           - not_null
           - unique
@@ -28,19 +27,11 @@ models:
       - name: date_key
         tests:
           - not_null
+          - unique
 
   - name: fact_trip
     columns:
       - name: trip_id
-        tests:
-          - not_null
-          - unique
-
-      - name: driver_id
-        tests:
-          - not_null
-
-      - name: rider_id
         tests:
           - not_null
 

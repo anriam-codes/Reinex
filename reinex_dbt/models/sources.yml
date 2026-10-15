@@ -1,11 +1,13 @@
+
 version: 2
 
 sources:
   - name: silver
-    database: reinex
-    schema: public
+    database: "{{ 'reinex-pro' if target.type == 'bigquery' else 'reinex' }}"
+    schema: "{{ 'reinex' if target.type == 'bigquery' else 'public' }}"
 
     tables:
       - name: silver_trips
+        identifier: "{{ 'raw_taxi_trips' if target.type == 'bigquery' else 'silver_trips' }}"
 
       - name: taxi_zone_lookup
