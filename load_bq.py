@@ -18,17 +18,17 @@ MONTH_FILES = [
     for month in range(1, 13)
 ]
 
-# Standard schema shared by all 12 monthly files.
+# All canonical column names are lowercase.
 CANONICAL_SCHEMA = pa.schema([
-    ("VendorID", pa.int64()),
+    ("vendorid", pa.int64()),
     ("tpep_pickup_datetime", pa.timestamp("us")),
     ("tpep_dropoff_datetime", pa.timestamp("us")),
     ("passenger_count", pa.float64()),
     ("trip_distance", pa.float64()),
-    ("RatecodeID", pa.float64()),
+    ("ratecodeid", pa.float64()),
     ("store_and_fwd_flag", pa.string()),
-    ("PULocationID", pa.int64()),
-    ("DOLocationID", pa.int64()),
+    ("pulocationid", pa.int64()),
+    ("dolocationid", pa.int64()),
     ("payment_type", pa.int64()),
     ("fare_amount", pa.float64()),
     ("extra", pa.float64()),
@@ -45,7 +45,8 @@ CANONICAL_SCHEMA = pa.schema([
 def normalize_parquet(source, destination):
     table = pq.read_table(source)
 
-    # Normalize column names, including Airport_fee -> airport_fee.
+    # Normalize names such as VendorID -> vendorid
+    # and Airport_fee -> airport_fee.
     names = [name.lower() for name in table.column_names]
 
     if len(names) != len(set(names)):
@@ -71,7 +72,7 @@ def normalize_parquet(source, destination):
                     f"Cannot normalize {field.name} in {source.name}: {exc}"
                 ) from exc
         else:
-            # Some months may not contain every surcharge column.
+            # Missing columns in some months become typed NULLs.
             column = pa.nulls(
                 table.num_rows,
                 type=field.type,
@@ -89,6 +90,16 @@ def normalize_parquet(source, destination):
         destination,
         compression="snappy",
     )
+
+    # Validate important columns before uploading.
+    for name in ("vendorid", "pulocationid", "dolocationid"):
+        if name in normalized.column_names:
+            null_count = normalized[name].null_count
+            print(
+                f"  {name}: "
+                f"{normalized.num_rows - null_count:,} non-null, "
+                f"{null_count:,} null"
+            )
 
     return normalized.num_rows
 
@@ -125,6 +136,8 @@ def main():
 
             print(f"Normalized rows: {rows:,}")
 
+            # First month replaces the broken table.
+            # Remaining months append to it.
             disposition = (
                 bigquery.WriteDisposition.WRITE_TRUNCATE
                 if index == 0
@@ -150,25 +163,39 @@ def main():
     table = client.get_table(table_ref)
 
     query = f"""
-        SELECT COUNT(*) AS row_count
+        SELECT
+            COUNT(*) AS row_count,
+            COUNT(vendorid) AS vendor_ids,
+            COUNT(pulocationid) AS pickup_locations,
+            COUNT(dolocationid) AS dropoff_locations
         FROM `{table_ref}`
     """
 
     result = list(
         client.query(query, location=location).result()
     )
-
-    bigquery_rows = result[0]["row_count"]
+    stats = result[0]
+    bigquery_rows = stats["row_count"]
 
     print("\n========== VALIDATION ==========")
-    print(f"Local rows:    {total_local_rows:,}")
-    print(f"BigQuery rows: {bigquery_rows:,}")
-    print(f"Table:         {table.full_table_id}")
-    print(f"Columns:       {len(table.schema)}")
+    print(f"Local rows:          {total_local_rows:,}")
+    print(f"BigQuery rows:       {bigquery_rows:,}")
+    print(f"Non-null vendor IDs: {stats['vendor_ids']:,}")
+    print(f"Non-null pickups:    {stats['pickup_locations']:,}")
+    print(f"Non-null dropoffs:   {stats['dropoff_locations']:,}")
+    print(f"Table:               {table.full_table_id}")
+    print(f"Columns:             {len(table.schema)}")
 
     if total_local_rows != bigquery_rows:
         raise RuntimeError(
             "Row counts do not match. Investigate before proceeding."
+        )
+
+    if not stats["vendor_ids"] or not stats["pickup_locations"] \
+            or not stats["dropoff_locations"]:
+        raise RuntimeError(
+            "Important columns are still entirely NULL. "
+            "Investigate before proceeding."
         )
 
     print("\nSUCCESS: All 12 monthly files loaded and verified.")
