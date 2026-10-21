@@ -1,5 +1,5 @@
 
-![Profile Picture](banne.png)
+![Profile Picture](assets/banset.png)
 
 A Distributed Ride Analytics Warehouse that processes raw NYC taxi data into clean, structured datasets for analytics, using batch ELT, CDC, SCD Type 2, and dimensional modeling.
 
@@ -23,10 +23,137 @@ REINEX brings raw taxi-trip data through two connected engineering workflows:
 
 The result is a project that explores both how data changes are managed and how large datasets are prepared for analytics.
 
-## Architecture & Data Flow
+## System Architecture
 
-<!-- Add the REINEX architecture diagram here. -->
+```text
+              ┌─────────────────────────┐
+              │   NYC Taxi Dataset      │
+              │   Monthly Parquet Files │
+              └────────────┬────────────┘
+                           │
+                    Data Ingestion
+                           │
+              ┌────────────┴────────────┐
+              │                         │
+       CDC Event Generation      Batch Ingestion
+              │                         │
+              ▼                         ▼
+    ┌──────────────────┐     ┌──────────────────┐
+    │ Python Producer  │     │ Python Loader    │
+    │ CDC Events       │     │ BigQuery Ingest  │
+    └────────┬─────────┘     └────────┬─────────┘
+             │                         │
+      Bronze / Silver             Raw Data Load
+             │                         │
+             ▼                         ▼
+    ┌──────────────────┐     ┌──────────────────┐
+    │ Parquet Files    │     │ BigQuery Raw     │
+    │ Bronze / Silver  │     │ Table            │
+    └────────┬─────────┘     └────────┬─────────┘
+             │                         │
+      Current State              dbt Transformations
+             │                         │
+             ▼                         ▼
+    ┌──────────────────┐     ┌──────────────────┐
+    │ PostgreSQL       │     │ dbt Models       │
+    │ Current Records  │     │ Staging + Dims   │
+    └────────┬─────────┘     └────────┬─────────┘
+             │                         │
+      Historical Tracking        Analytics Modeling
+             │                         │
+             ▼                         ▼
+    ┌──────────────────┐     ┌──────────────────┐
+    │ dbt Snapshot     │     │ fact_trip        │
+    │ SCD Type 2       │     │ Analytics View   │
+    └──────────────────┘     └──────────────────┘
+```
 
+### Local CDC Pipeline
+
+```text
+       ┌──────────────────────┐
+       │ Source Trip Records  │
+       │ Parquet Dataset      │
+       └──────────┬───────────┘
+                  │
+             Generate Events
+                  │
+                  ▼
+       ┌──────────────────────┐
+       │ Python Producer      │
+       │ CDC Event Generation │
+       └──────────┬───────────┘
+                  │
+          Write CDC Events + State
+                  │
+                  ▼
+       ┌──────────────────────┐
+       │ Bronze Parquet       │
+       │ Events + Source State│
+       └──────────┬───────────┘
+                  │
+             Apply CDC Changes
+                  │
+                  ▼
+       ┌──────────────────────┐
+       │ Silver Processing    │
+       │ Clean + Deduplicate  │
+       └──────────┬───────────┘
+                  │
+             Validate + Load
+                  │
+                  ▼
+       ┌──────────────────────┐
+       │ PostgreSQL           │
+       │ Current Trip Records │
+       └──────────┬───────────┘
+                  │
+          Track Record Changes
+                  │
+                  ▼
+       ┌──────────────────────┐
+       │ dbt Snapshot         │
+       │ SCD Type 2 History   │
+       └──────────────────────┘
+```
+
+### BigQuery Modeling & Transformation
+
+```text
+       ┌──────────────────────┐
+       │ Monthly Parquet Files│
+       └──────────┬───────────┘
+                  │
+             Batch Ingestion
+                  │
+                  ▼
+       ┌──────────────────────┐
+       │ BigQuery Loader      │
+       │ Normalize + Validate │
+       └──────────┬───────────┘
+                  │
+              Load Raw Data
+                  │
+                  ▼
+       ┌──────────────────────┐
+       │ BigQuery Raw Table   │
+       └──────────┬───────────┘
+                  │
+             Transform + Model
+                  │
+                  ▼
+       ┌──────────────────────┐
+       │ dbt Staging + Dims   │
+       └──────────┬───────────┘
+                  │
+              Build Fact View
+                  │
+                  ▼
+       ┌──────────────────────┐
+       │ fact_trip View       │
+       │ Analytics Output     │
+       └──────────────────────┘
+```
 ## Key Engineering Decisions
 
 • **Separated Bronze and Silver layers** — Kept incoming data separate from cleaned records, making transformations easier to inspect and debug.
@@ -136,6 +263,18 @@ REINEX/
 ├── docker-compose.yaml
 └── README.md
 ```
+• **`producer.py`** — Generates the local source data and CDC events.
+
+• **`silver.py`** — Applies source changes and produces the cleaned current dataset.
+
+• **`load_silver.py`** — Validates and loads the Silver dataset into PostgreSQL.
+
+• **`load_bq.py`** — Loads monthly Parquet datasets into BigQuery and validates the results.
+
+• **`reinex_dbt/`** — Contains staging and dimensional models, tests, and PostgreSQL snapshots.
+
+• **`bronze/`, `silver/`, and `datasets/`** — Store the intermediate and source data files.
+
 
 ## Running REINEX Locally
 
