@@ -1,7 +1,9 @@
+
 {% snapshot trip_history %}
 
 {{
     config(
+        enabled=(target.type == 'postgres'),
         unique_key='trip_id',
         strategy='check',
         check_cols=[
