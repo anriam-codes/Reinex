@@ -314,11 +314,11 @@ python load_silver.py
 ### 5. Run dbt Against PostgreSQL
 
 ```cmd
-dbt debug --project-dir reinex_dbt --target postgres
-dbt build --project-dir reinex_dbt --target postgres
+dbt debug --project-dir reinex_dbt --target dev
+dbt build --project-dir reinex_dbt --target dev
 ```
 
-This workflow includes the local analytical models and PostgreSQL snapshot workflow.
+This workflow builds the local analytical models and runs the PostgreSQL SCD Type 2 snapshot.
 
 ### 6. Run the BigQuery Workflow
 
@@ -327,9 +327,7 @@ Configure Google Cloud credentials and the BigQuery target before running:
 ```cmd
 python load_bq.py
 dbt debug --project-dir reinex_dbt --target bigquery
-dbt build --project-dir reinex_dbt --target bigquery --exclude resource_type:snapshot
+dbt build --project-dir reinex_dbt --target bigquery
 ```
 
-The BigQuery build excludes snapshots because the SCD Type 2 snapshot is configured for PostgreSQL.
-
-> **Note:** Confirm the repository's current dependency file, dbt target names, database configuration, and script execution requirements before publishing these commands as a tested setup guide.
+The SCD Type 2 snapshot is configured for PostgreSQL and disabled for BigQuery, so the BigQuery build does not require a snapshot exclusion.
