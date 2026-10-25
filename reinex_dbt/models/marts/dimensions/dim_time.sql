@@ -1,3 +1,4 @@
+
 select distinct
     date(pickup_datetime) as date_key,
 
@@ -6,10 +7,17 @@ select distinct
     extract(month from pickup_datetime) as month,
     extract(day from pickup_datetime) as day,
 
-    extract(dayofweek from pickup_datetime) as weekday,
+    {% if target.type == 'bigquery' %}
+        extract(dayofweek from pickup_datetime) as weekday,
 
-    extract(dayofweek from pickup_datetime) in (1, 7)
-        as is_weekend
+        extract(dayofweek from pickup_datetime) in (1, 7)
+            as is_weekend
+    {% else %}
+        extract(dow from pickup_datetime) + 1 as weekday,
+
+        (extract(dow from pickup_datetime) in (0, 6))
+            as is_weekend
+    {% endif %}
 
 from {{ ref('stg_trips') }}
 where pickup_datetime is not null
