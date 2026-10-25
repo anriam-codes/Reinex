@@ -1,5 +1,5 @@
 
-![Profile Picture](assets/banset.png)
+![Profile Picture](assets/cafeREI.png)
 
 A Distributed Ride Analytics Warehouse that processes raw NYC taxi data into clean, structured datasets for analytics, using batch ELT, CDC, SCD Type 2, and dimensional modeling.
 
